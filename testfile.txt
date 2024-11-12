@@ -1,3 +1,2 @@
-all test input changes values over time
+all test input changes values over time.
 
-what about new input

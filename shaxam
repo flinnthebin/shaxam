@@ -1,13 +1,25 @@
 #!/usr/bin/env sh
 
+if [ -z "$1" ]; then
+    echo "Usage: $0 <filename>"
+    exit 1
+fi
+
 FILE="$1"
 EMAIL="christopher.flinn@gmail.com"
+
 HASH=$(openssl dgst -sha256 "$FILE" | awk '{print $2}')
 
-cp "$FILE" "${HASH}.txt"
+BASENAME=$(basename "$FILE" .txt)
+NEXT_NUM=1
 
-git add "$FILE"
-git commit -m "$HASH"
+while [ -e "${BASENAME}_${NEXT_NUM}.txt" ]; do
+    NEXT_NUM=$((NEXT_NUM + 1))
+done
+
+COPY_FILE="${BASENAME}_${NEXT_NUM}.txt"
+cp "$HASH" "$COPY_FILE"
+
+git add .
+git commit -m "Added $FILE with hash: $HASH"
 git push
-
-echo "$FILE: $HASH" | mutt -s "shaxam" "$EMAIL"
