@@ -1,0 +1,13 @@
+#!/usr/bin/env sh
+
+FILE="$1"
+EMAIL="christopher.flinn@gmail.com"
+HASH=$(openssl dgst -sha256 "$FILE" | awk '{print $2}')
+
+cp "$FILE" "${HASH}.txt"
+
+git add "$FILE"
+git commit -m "$HASH"
+git push
+
+echo "$FILE: $HASH" | mutt -s "shaxam" "$EMAIL"
