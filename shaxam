@@ -18,7 +18,7 @@ while [ -e "${BASENAME}_${NEXT_NUM}.txt" ]; do
 done
 
 COPY_FILE="${BASENAME}_${NEXT_NUM}.txt"
-cp "$HASH" "$COPY_FILE"
+echo "$HASH" > "$COPY_FILE"
 
 git add .
 git commit -m "Added $FILE with hash: $HASH"
